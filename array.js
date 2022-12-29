@@ -26,4 +26,14 @@ var marks = [30,40,50,50, 60]
 
 // includes
 
-console.log(marks.includes(50));
+// console.log(marks.includes(50));
+
+// reduce:
+// var sum=marks.reduce((num1,num2)=>num1+num2)
+// console.log(sum);
+
+// var max=marks.reduce((num1,num2)=>num1>num2?num1:num2)
+// console.log(max);
+
+var min=marks.reduce((num1,num2)=>num1<num2?num1:num2)
+console.log(min);
