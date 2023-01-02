@@ -27,8 +27,8 @@ var mobiles=[
 // console.log(data);
 
 // fetch cheapest product :
-var data = mobiles.reduce((m1,m2)=> m1.price<m2.price?m1:m2)
-console.log(data);
+// var data = mobiles.reduce((m1,m2)=> m1.price<m2.price?m1:m2)
+// console.log(data);
 
 
 
