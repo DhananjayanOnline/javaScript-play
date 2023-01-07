@@ -20505,13 +20505,83 @@ class CountryDetails{
     getAllCountries(){
         return this.data
     }
+
+    getAllRegions(){
+        return new Set(this.data.map(m=> m.region))
+    }
+
+    getDataInRegion(region){
+        return this.data.filter(c=> c.region == region)
+    }
+
 }
 
 var country = new CountryDetails()
 
 var allCountry = country.getAllCountries()
 
-function countrydetails(countries){
+allDetails(allCountry)
+
+
+// get all details of counties
+function allDetails(countries){
     let htmlData=""
+
+    countries.forEach(i => [
+        htmlData+=[
+            ` 
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-column mb-3">
+                        <div class="p-2">${i.name}</div>
+                        <div class="p-2">${i.alpha2Code} 2</div>
+                        <div class="p-2">${i.capital}</div>
+                    </div>  
+                </div>
+            </div>
+        </div>`
+        ]
+    ]);
+
+    
+    document.querySelector("#result").innerHTML=htmlData
 }
+
+
+// fetch all regions
+var regions = country.getAllRegions()
+
+function diplayAllRegions(regions){
+    var htmlData=""
+
+    regions.forEach(r => {
+        htmlData += 
+        `
+        <button class="btn btn-ouline-secondary" name="${r}" onclick="displayRegionCounties(event)">${r}</button>
+        `
+    });
+
+    document.querySelector('#nav').innerHTML = htmlData
+}
+
+
+diplayAllRegions(regions)
+
+
+// get counties according for their region
+
+function displayRegionCounties(event){
+    console.log(event.target.name);
+    let con_name = event.target.name
+
+    let counties = country.getDataInRegion(con_name)
+
+    console.log(con_name);
+
+    allDetails(counties)
+    
+}
+
+
 
