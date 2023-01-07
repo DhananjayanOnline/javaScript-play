@@ -23,7 +23,6 @@ var service = new NewsService()
 // preload News from india
 service.getTopHeadlines("in").then(res=> res.json()).then(data=> getTopHeadlinesIndia(data.articles))
 service.getTopHeadlines("gb").then(res=> res.json()).then(data=> getTopHeadlinesUk(data.articles))
-service.getTopHeadlines("ua").then(res=> res.json()).then(data=> getTopHeadlinesUkraine(data.articles))
 
 service.getArticleAboutBitcoin().then(res=> res.json()).then(data=> bitcoinArticles(data.articles))
 
@@ -59,12 +58,18 @@ function getTopNews(event){
                 htmlData+=`
                 <div class="carousel-item active">
                     <img src="${article.urlToImage}" class="d-block w-100" alt="..." style="width: 100%; height: 25em; object-fit: cover;">
+                    <div class="carousel-caption d-none d-md-block">    
+                        <h5>${article.title}</h5>
+                    </div>
                 </div>
                 `
             }else{
                 htmlData+=`
                 <div class="carousel-item">
                     <img src="${article.urlToImage}" class="d-block w-100" alt="..." style="width: 100%; height: 25em; object-fit: cover;">
+                    <div class="carousel-caption d-none d-md-block">    
+                        <h5>${article.title}</h5>
+                    </div>
                 </div>
                 `
             }
@@ -85,9 +90,7 @@ function getTopNews(event){
             <div class="card text-bg-dark" style="width:111%;height:11em; margin-left:-2em; border-radius:0;">
             <img src="${article.urlToImage}" style="width:100%; height:12em; object-fit: cover;" class="card-img" alt="...">
             <div class="card-img-overlay">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <p class="card-text"><small>Last updated 3 mins ago</small></p>
+                <h5 class="card-title">${article.title}</h5>
             </div>
             </div>
             </div>
@@ -111,7 +114,9 @@ function getTopNews(event){
                 <h5 class="card-title bg-dark opacity-90 shadow">${article.title}</h5>
                 <p class="card-text"><small>${article.publishedAt}</small></p>
             </div>
+            <button type="submit" style="z-index: 0;" class="btn text-bg-dark" onclick="getDetailNews(event)" name="${article.title}">read more</button>
             </div>
+            
             
             `
             document.querySelector("#TopNewsIndia").innerHTML = htmlData
@@ -144,27 +149,14 @@ function getTopNews(event){
     // End of Headlines - US
 
 
-    // Top Headlines - US
-    function getTopHeadlinesUkraine(articles){
-        console.log(articles);
-        let htmlData=""
-        for(article of articles.slice(0, 4)){
-            htmlData+=`
-
-            <div class="card border-0 text-bg-dark" style="border-radius:0">
-            <img src="${article.urlToImage}" class="card-img" style="width: 19.5em; height: 13em; object-fit: cover;" alt="...">
-            <div class="card-img-overlay opacity-75">
-                <h5 class="card-title bg-dark opacity-100">${article.title}</h5>
-                <p class="card-text"><small>${article.publishedAt}</small></p>
-            </div>
-            </div>
-            
-            `
-            document.querySelector("#TopNewsUkraine").innerHTML = htmlData
-        }
-
+    // getDetail News
+    function getDetailNews(event){
+        title = event.target.name
+        console.log(title)
     }
-    // End of Headlines - US
+
+
+    // End of get Detail News
 
 
 
