@@ -11,6 +11,10 @@ class NewsService{
     getNewsByCategories(){
         return fetch("https://newsapi.org/v2/top-headlines?country=us&apiKey=b31e8293bc454e95afb0d45939915c19")
     }
+
+    getNewsDetailIndia(){
+        return fetch('https://newsapi.org/v2/top-headlines?country=in&apiKey=b31e8293bc454e95afb0d45939915c19')
+    }
 }
 
 // Objects
@@ -28,6 +32,8 @@ service.getArticleAboutBitcoin().then(res=> res.json()).then(data=> bitcoinArtic
 
 // Funtion calls
 service.getTopHeadlines("in").then(res=> res.json()).then(data=> headerBlock(data.articles))
+
+
 
 // End of Function calls
 
@@ -114,7 +120,7 @@ function getTopNews(event){
                 <h5 class="card-title bg-dark opacity-90 shadow">${article.title}</h5>
                 <p class="card-text"><small>${article.publishedAt}</small></p>
             </div>
-            <button type="submit" style="z-index: 0;" class="btn text-bg-dark" onclick="getDetailNews(event)" name="${article.title}">read more</button>
+            <a href="./news-detail.html" type="submit" style="z-index: 0;" class="btn text-bg-dark" onclick="getDetailNews(event)" name="${article.title}">read more</a>
             </div>
             
             
@@ -152,7 +158,12 @@ function getTopNews(event){
     // getDetail News
     function getDetailNews(event){
         title = event.target.name
-        console.log(title)
+        service.getNewsDetailIndia().then(res=> res.json()).then(data=> details(data.articles))
+
+         function details(articles){
+            articles.filter(f=> f.title == title).forEach(data=> console.log(data))
+        }
+        
     }
 
 
