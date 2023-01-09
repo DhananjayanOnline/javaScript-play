@@ -109,7 +109,6 @@ function getTopNews(event){
 
     // Top Headlines - India
     function getTopHeadlinesIndia(articles){
-        console.log(articles);
         let htmlData=""
         for(article of articles.slice(0, 4)){
             htmlData+=`
@@ -134,7 +133,6 @@ function getTopNews(event){
 
     // Top Headlines - US
     function getTopHeadlinesUk(articles){
-        console.log(articles);
         let htmlData=""
         for(article of articles.slice(0, 4)){
             htmlData+=`
@@ -157,11 +155,35 @@ function getTopNews(event){
 
     // getDetail News
     function getDetailNews(event){
+        window.location.assign("news-detail.html")
         title = event.target.name
         service.getNewsDetailIndia().then(res=> res.json()).then(data=> details(data.articles))
-
+        
          function details(articles){
-            articles.filter(f=> f.title == title).forEach(data=> console.log(data))
+            let news = articles.filter(f=> f.title == title)
+            localStorage.setItem(news)
+
+            console.log(news);
+
+            let htmlData = `
+            <div class="card" style="width: 18rem;">
+            <img src="${news.urlToImage}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${news.title}</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+            </div>
+            `
+            document.querySelector("#detail-news").innerHTML = htmlData
         }
         
     }
