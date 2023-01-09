@@ -15,6 +15,10 @@ class NewsService{
     getNewsDetailIndia(){
         return fetch('https://newsapi.org/v2/top-headlines?country=in&apiKey=b31e8293bc454e95afb0d45939915c19')
     }
+
+    getTopHeadlinesSports(){
+        return fetch('https://newsapi.org/v2/top-headlines?country=in&category=sports&apiKey=b31e8293bc454e95afb0d45939915c19')
+    }
 }
 
 // Objects
@@ -33,6 +37,7 @@ service.getArticleAboutBitcoin().then(res=> res.json()).then(data=> bitcoinArtic
 // Funtion calls
 service.getTopHeadlines("in").then(res=> res.json()).then(data=> headerBlock(data.articles))
 
+service.getTopHeadlinesSports().then(res=> res.json()).then(data=> getSportsHeadlines(data.articles))
 
 
 // End of Function calls
@@ -119,7 +124,7 @@ function getTopNews(event){
                 <h5 class="card-title bg-dark opacity-90 shadow">${article.title}</h5>
                 <p class="card-text"><small>${article.publishedAt}</small></p>
             </div>
-            <a href="./news-detail.html" type="submit" style="z-index: 0;" class="btn text-bg-dark" onclick="getDetailNews(event)" name="${article.title}">read more</a>
+            <a href="#detail-news" type="submit" style="z-index: 0;" class="btn text-bg-dark" onclick="getDetailNews(event)" name="${article.title}">read more</a>
             </div>
             
             
@@ -153,37 +158,69 @@ function getTopNews(event){
     // End of Headlines - US
 
 
+    // Top Headlines-Sports
+    function getSportsHeadlines(articles){
+        let htmlData = ""
+
+        for(article of articles){
+            htmlData+=
+            `
+            <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                <img src="${article.urlToImage}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">${article.title}</h5>
+                    <p class="card-text"><small class="text-muted">${article.publishedAt}</small></p>
+                </div>
+                </div>
+            </div>
+            </div>
+
+            `
+
+            document.querySelector("#sports-news").innerHTML = htmlData
+        }
+
+
+    }
+
+
+
+
+
+
     // getDetail News
     function getDetailNews(event){
-        window.location.assign("news-detail.html")
         title = event.target.name
         service.getNewsDetailIndia().then(res=> res.json()).then(data=> details(data.articles))
         
          function details(articles){
-            let news = articles.filter(f=> f.title == title)
-            localStorage.setItem(news)
-
-            console.log(news);
+           articles.filter(f=> f.title == title).forEach(element => {
 
             let htmlData = `
-            <div class="card" style="width: 18rem;">
-            <img src="${news.urlToImage}" class="card-img-top" alt="...">
+            <div class="card" style="width: 100%;">
+            <img src="${element.urlToImage}" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title">${news.title}</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-            </ul>
-            <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <h5 class="card-title">${element.title}</h5>
+
+                <p class="card-title" ><small>Author : ${element.author}</small></p>
+                <p class="card-title" ><small>Published At : ${element.publishedAt}</small></p>
+
+                <p class="content">${element.content}</p>
+                <p class="content">Read More..</p>
+                <a href="${element.url}" class="card-link">${element.url}</a>
             </div>
             </div>
             `
             document.querySelector("#detail-news").innerHTML = htmlData
+
+
+           });
+            
+            
         }
         
     }
