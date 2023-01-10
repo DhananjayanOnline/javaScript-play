@@ -40,15 +40,16 @@ service.getTopHeadlines("in").then(res=> res.json()).then(data=> headerBlock(dat
 service.getTopHeadlinesSports().then(res=> res.json()).then(data=> getSportsHeadlines(data.articles))
 
 
+
 // End of Function calls
 
 
 
 // Event functions
-function getTopNews(event){
+function allNews(event){
     countryCode = event.target.name
     console.log(countryCode);
-    service.getTopHeadlines(countryCode).then(res=> res.json()).then(data=> populateAllArticles(data.articles))
+    service.getTopHeadlines(countryCode).then(res=> res.json()).then(data=> getAllNews(data.articles))
 }
 
 // End of event functions
@@ -191,6 +192,39 @@ function getTopNews(event){
 
 
 
+    // Top News display
+    function getAllNews(articles){
+        let htmlData = ""
+
+        for(article of articles){
+            htmlData+=
+            `
+            <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                <img src="${article.urlToImage}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">${article.title}</h5>
+                    <p class="card-text"><small class="text-muted">${article.publishedAt}</small></p>
+                </div>
+                </div>
+            </div>
+            </div>
+
+            `
+
+            document.querySelector("#all-news").innerHTML = htmlData
+        }
+
+
+    }
+
+
+
+
+
 
     // getDetail News
     function getDetailNews(event){
@@ -199,6 +233,14 @@ function getTopNews(event){
         
          function details(articles){
            articles.filter(f=> f.title == title).forEach(element => {
+
+            // let serialized_data = JSON.stringify(element)
+            
+            // localStorage.setItem("element", serialized_data)
+
+            // let deserialiezd_data = JSON.parse(localStorage.getItem("element"))
+
+            // console.log(deserialiezd_data);
 
             let htmlData = `
             <div class="card" style="width: 100%;">
