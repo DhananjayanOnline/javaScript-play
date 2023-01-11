@@ -8,10 +8,6 @@ class NewsService{
         return fetch(`https://newsapi.org/v2/top-headlines?country=${countryCode}&apiKey=b31e8293bc454e95afb0d45939915c19`)
     }
 
-    getNewsByCategories(){
-        return fetch("https://newsapi.org/v2/top-headlines?country=us&apiKey=b31e8293bc454e95afb0d45939915c19")
-    }
-
     getNewsDetailIndia(){
         return fetch('https://newsapi.org/v2/top-headlines?country=in&apiKey=b31e8293bc454e95afb0d45939915c19')
     }
@@ -19,6 +15,11 @@ class NewsService{
     getTopHeadlinesSports(){
         return fetch('https://newsapi.org/v2/top-headlines?country=in&category=sports&apiKey=b31e8293bc454e95afb0d45939915c19')
     }
+
+    getNewsByCategories(category){
+        return fetch(`https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=b31e8293bc454e95afb0d45939915c19`)
+    }
+
 }
 
 // Objects
@@ -50,6 +51,12 @@ function allNews(event){
     countryCode = event.target.name
     console.log(countryCode);
     service.getTopHeadlines(countryCode).then(res=> res.json()).then(data=> getAllNews(data.articles))
+}
+
+function categoryNewsAll(event){
+    category = event.target.name
+    console.log(category);
+    service.getNewsByCategories(category).then(res=> res.json()).then(data=> getAllNews(data.articles))
 }
 
 // End of event functions
@@ -119,14 +126,19 @@ function allNews(event){
         for(article of articles.slice(0, 4)){
             htmlData+=`
 
-            <div class="card border-0 text-bg-dark" style="border-radius:0">
-            <img src="${article.urlToImage}" class="card-img" style="width: 19.5em; height: 13em; object-fit: cover;" alt="...">
-            <div class="card-img-overlay">
-                <h5 class="card-title bg-dark opacity-90 shadow">${article.title}</h5>
-                <p class="card-text"><small>${article.publishedAt}</small></p>
+            <a href="${articles.url}">
+            <div class="card" border-0 text-bg-dark" style="border-radius:0; width:50%; height: 18em;overflow: hidden;">
+                <img src="${article.urlToImage}" class="card-img" style="100%; border-radius:0; height: 13em; object-fit: cover;" alt="image not found">
+                <div class="card-body">
+                    <p class="card-text">${article.title}</p>
+                    <span class="card-text"><small>${article.publishedAt}</small></span>
+                    <a href="#detail-news" type="submit" style="z-index: 0;" class="btn text-bg-dark" onclick="getDetailNews(event)" name="${article.title}">read more</a>
+                </div>
             </div>
-            <a href="#detail-news" type="submit" style="z-index: 0;" class="btn text-bg-dark" onclick="getDetailNews(event)" name="${article.title}">read more</a>
-            </div>
+            </a>
+            
+            
+            
             
             
             `
@@ -143,12 +155,13 @@ function allNews(event){
         for(article of articles.slice(0, 4)){
             htmlData+=`
 
-            <div class="card border-0 text-bg-dark" style="border-radius:0">
-            <img src="${article.urlToImage}" class="card-img" style="width: 19.5em; height: 13em; object-fit: cover;" alt="...">
-            <div class="card-img-overlay opacity-75">
-                <h5 class="card-title bg-dark opacity-100">${article.title}</h5>
-                <p class="card-text"><small>${article.publishedAt}</small></p>
-            </div>
+            <div class="card" border-0 text-bg-dark" style="border-radius:0; width:50%; height: 18em;overflow: hidden;">
+                <img src="${article.urlToImage}" class="card-img" style="100%; border-radius:0; height: 13em; object-fit: cover;" alt="image not found">
+                <div class="card-body">
+                    <p class="card-text">${article.title}</p>
+                    <span class="card-text"><small>${article.publishedAt}</small></span>
+                    <a href="#detail-news" type="submit" style="z-index: 0;" class="btn text-bg-dark" onclick="getDetailNews(event)" name="${article.title}">read more</a>
+                </div>
             </div>
             
             `
