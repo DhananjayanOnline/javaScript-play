@@ -126,13 +126,12 @@ function categoryNewsAll(event){
         for(article of articles.slice(0, 4)){
             htmlData+=`
 
-            <a href="${articles.url}">
-            <div class="card" border-0 text-bg-dark" style="border-radius:0; width:50%; height: 18em;overflow: hidden;">
-                <img src="${article.urlToImage}" class="card-img" style="100%; border-radius:0; height: 13em; object-fit: cover;" alt="image not found">
+            <a href="${article.url}" style="color:black; text-decoration:none;">
+            <div class="card" border-0 text-bg-dark" style="border-radius:0; width:99%; height: 19em;overflow: hidden;">
+                <img src="${article.urlToImage}" class="card-img" style="width:100%; border-radius:0; height: 13em; object-fit: cover;" alt="image not found">
                 <div class="card-body">
                     <p class="card-text">${article.title}</p>
                     <span class="card-text"><small>${article.publishedAt}</small></span>
-                    <a href="#detail-news" type="submit" style="z-index: 0;" class="btn text-bg-dark" onclick="getDetailNews(event)" name="${article.title}">read more</a>
                 </div>
             </div>
             </a>
@@ -155,14 +154,15 @@ function categoryNewsAll(event){
         for(article of articles.slice(0, 4)){
             htmlData+=`
 
-            <div class="card" border-0 text-bg-dark" style="border-radius:0; width:50%; height: 18em;overflow: hidden;">
-                <img src="${article.urlToImage}" class="card-img" style="100%; border-radius:0; height: 13em; object-fit: cover;" alt="image not found">
+            <a href="${article.url}" style="color:black; text-decoration:none;">
+            <div class="card" border-0 text-bg-dark" style="border-radius:0; width:99%; height: 19em;overflow: hidden;">
+                <img src="${article.urlToImage}" class="card-img" style="width:100%; border-radius:0; height: 13em; object-fit: cover;" alt="image not found">
                 <div class="card-body">
                     <p class="card-text">${article.title}</p>
                     <span class="card-text"><small>${article.publishedAt}</small></span>
-                    <a href="#detail-news" type="submit" style="z-index: 0;" class="btn text-bg-dark" onclick="getDetailNews(event)" name="${article.title}">read more</a>
                 </div>
             </div>
+            </a>
             
             `
             document.querySelector("#TopNewsUk").innerHTML = htmlData
@@ -176,18 +176,17 @@ function categoryNewsAll(event){
     function getSportsHeadlines(articles){
         let htmlData = ""
 
-        for(article of articles){
+        for(article of articles.slice(0,5)){
             htmlData+=
             `
-            <div class="card mb-3" style="max-width: 540px;">
+            <div class="card mb-3" style="max-width: 99%; max-height: 7em;overflow:hidden">
             <div class="row g-0">
                 <div class="col-md-4">
-                <img src="${article.urlToImage}" class="img-fluid rounded-start" alt="...">
+                <img src="${article.urlToImage}" class="img-fluid rounded-start" style="height:7em; object-fit:cover;" alt="Image not available">
                 </div>
                 <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">${article.title}</h5>
-                    <p class="card-text"><small class="text-muted">${article.publishedAt}</small></p>
+                    <h6 class="card-title" style="margin-top:-0.5em">${article.title}</h6>
                 </div>
                 </div>
             </div>
